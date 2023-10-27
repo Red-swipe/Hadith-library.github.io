@@ -2,21 +2,34 @@
 <html>
 <head>
     <title>Hadith Search</title>
-   <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-image: url('well.jpeg');
-            background-size: cover; /* Use cover to adapt to different screen sizes */
+            background-size: cover;
             background-attachment: fixed;
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Use the "well.jpeg" image for computers, laptops, and TVs */
+        @media (min-width: 768px) {
+            body {
+                background-image: url('well.jpeg');
+            }
+        }
+
+        /* Use the "phone.jpeg" image for mobile devices */
+        @media (max-width: 767px) {
+            body {
+                background-image: url('phone.jpeg');
+            }
         }
 
         h1 {
             color: #333;
-            font-size: 24px; /* Adjust font size for different screens */
-            margin: 20px 0; /* Add some margin for spacing */
+            font-size: 24px;
+            margin: 20px 0;
         }
 
         #hadithContainer {
@@ -101,12 +114,12 @@
                 font-size: 20px;
             }
             #hadithContainer {
-                max-width: 100%; /* Expand container to full width */
+                max-width: 100%;
                 padding: 10px;
             }
             #searchInput {
-                width: 100%; /* Full width input on smaller screens */
-                font-size: 14px; /* Smaller font size */
+                width: 100%;
+                font-size: 14px;
             }
             .hadithItem {
                 padding: 8px;
