@@ -28,13 +28,13 @@
             border-radius: 5px;
             padding: 10px;
             background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .row {
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            padding: 10px 15px;
         }
 
         input[type="text"] {
@@ -50,7 +50,7 @@
             background: transparent;
             border: none;
             outline: none;
-            margin-right: 10px;
+            margin-left: 10px;
         }
 
         button .fa-solid {
@@ -160,6 +160,14 @@
             .search-box {
                 width: 90%;
             }
+
+            .row {
+                justify-content: space-between;
+            }
+
+            button {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
@@ -186,7 +194,6 @@
         <span class="close-btn" onclick="closePopup()">&times;</span>
         <div id="popup-content"></div>
     </div>
-
 
 <script>
 function autocomplete(inp, arr) {
