@@ -1,152 +1,258 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Hadith Search</title>
+    <script src="https://kit.fontawesome.com/bb3a8706ce.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-image: url('well.jpeg');
             background-size: cover;
             background-attachment: fixed;
             margin: 0;
-            padding: 0;
-        }
-
-        /* laptop and rest wallpaper */
-        @media (min-width: 768px) {
-            body {
-                background-image: url('well.jpeg');
-            }
-        }
-
-        /* mobile wallpaper*/
-        @media (max-width: 767px) {
-            body {
-                background-image: url('phone.jpeg');
-            }
+            padding: 50px;
         }
 
         h1 {
             color: #333;
-            font-size: 24px;
-            margin: 20px 0;
+            margin: 10px 0; /* Moved the heading a bit to the top */
+            font-size: 48px;
         }
 
-        #hadithContainer {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
+        .search-box {
+            width: 600px; /* Decreased the size of the search box */
+            position: relative;
+            background: #fff;
+            margin: 50px auto 20px; /* Moved the search box down */
+            border-radius: 5px;
+            padding: 10px; /* Added padding for the search box */
         }
 
-        #searchInput {
-            width: 85%;
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
+        .row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 10px 15px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            height: 30px; /* Decreased the height of the input */
             border: none;
             outline: none;
-            background-color: transparent;
-            color: #000;
-            border-bottom: 1px solid #000;
+            font-size: 14px; /* Decreased the font size */
+            padding: 0 5px;
         }
 
-        #searchResults {
-            text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            padding: 10px;
-        }
-
-        .hadithItem {
-            margin-bottom: 10px;
-            cursor: pointer;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-            background: #fff;
-        }
-
-        .hadithItem:hover {
-            background: #f2f2f2;
-        }
-
-        #clearButton {
-            width: 15%;
-            background: #e6e6e6;
-            padding: 10px;
+        button {
+            background: transparent;
             border: none;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        button .fa-solid {
+            font-size: 22px;
+            color: #555;
             cursor: pointer;
+        }
+
+        ::placeholder {
+            color: #555;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #fff;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        .autocomplete-items div:hover {
+            background-color: #e9e9e9;
+        }
+
+        .autocomplete-active, .autocomplete-items div:hover {
+            background-color: DodgerBlue !important;
+            color: #ffffff;
         }
 
         #footer {
-            text-align: left;
+            text-align: center;
             position: fixed;
             bottom: 10px;
-            left: 10px;
+            width: 95%;
             font-size: 14px;
+            display: flex;
+            justify-content: center;
         }
 
         .footerLink {
-            display: block;
             text-decoration: none;
-            margin: 5px 0;
+            color: #333;
             padding: 10px;
             border-radius: 5px;
-            text-align: left;
-            color: #000;
+            display: inline-block;
+            margin: 5px;
+            background-color: #f8f8f8;
         }
 
         .footerLink:hover {
-            background: #75A7A8;
+            background-color: #ddd;
         }
 
         #quranCom {
-            background: #FFFFFF;
+           background-color:#93adbc;
         }
 
-        /* Media Query for smaller screens (e.g., phones) */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 20px;
-            }
-            #hadithContainer {
-                max-width: 100%;
-                padding: 10px;
-            }
-            #searchInput {
-                width: 100%;
-                font-size: 14px;
-            }
-            .hadithItem {
-                padding: 8px;
-            }
+        #thaqalaynNet {
+            
+            background-color: #E29912;
+        }
+
+        #sunnahCom {
+            background-color: #75A7A8;
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #555;
+            background: #fff;
+            padding: 30px;
+            z-index: 1000;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none; /* Hide the popup initially */
+        }
+
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Hadith Search</h1>
-    <div id="hadithContainer">
-        <input type="text" id="searchInput" placeholder="Search Hadith...">
-        <button id="clearButton">Clear</button>
-        <div id="searchResults"></div>
+
+<h1>Hadith Search</h1>
+
+<div class="search-box">
+    <div class="row">
+        <input id="myInput" type="text" placeholder="Search Hadith..." autocomplete="off">
+        <button><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
+    <div id="myInputautocomplete-list" class="autocomplete-items"></div>
+</div>
 
-    <div id="footer">
-        <a class="footerLink" href="https://quran.com" target="_blank" id="quranCom">Quran.com</a>
-        <a class="footerLink" href="https://thaqalayn.net" target="_blank" style="background: #E29912">Thaqalayn.net</a>
-        <a class="footerLink" href="https://sunnah.com" target="_blank" style="background: #75A7A8">Sunnah.com</a>
-    </div>
+<div id="footer">
+    <a class="footerLink" id="quranCom" href="https://quran.com" target="_blank">Quran.com</a>
+    <a class="footerLink" id="thaqalaynNet" href="https://thaqalayn.net" target="_blank">Thaqalayn.net</a>
+    <a class="footerLink" id="sunnahCom" href="https://sunnah.com" target="_blank">Sunnah.com</a>
+</div>
 
-    <script>
+<div class="popup">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <div id="popup-content"></div>
+</div>
 
-        const hadiths = [
-            "1. None resembled the Prophet (ﷺ) more than Al-Hasan bin `Ali did [bukhari:3752]",
-            "2. Khalid bin walid showing hate towards Imam Ali A.S [Bukhari:4350]",
-            "3. Rememberence of Ali (A.s) is worship [ibid p.356, no.8949]",
+<script>
+function autocomplete(inp, arr) {
+    var currentFocus;
+
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        a = document.createElement("div");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i].toUpperCase().includes(val.toUpperCase())) {
+                b = document.createElement("div");
+                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += arr[i].substr(val.length);
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                b.addEventListener("click", function(e) {
+                    showPopup(this.getElementsByTagName("input")[0].value);
+                });
+                a.appendChild(b);
+            }
+        }
+    });
+
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+            currentFocus++;
+            addActive(x);
+        } else if (e.keyCode == 38) {
+            currentFocus--;
+            addActive(x);
+        } else if (e.keyCode == 13) {
+            e.preventDefault();
+            if (currentFocus > -1) {
+                if (x) x[currentFocus].click();
+            }
+        }
+    });
+
+    function addActive(x) {
+        if (!x) return false;
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = x.length - 1;
+        x[currentFocus]?.classList.add("autocomplete-active");
+    }
+
+    function removeActive(x) {
+        for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+        }
+    }
+
+    function closeAllLists(elmnt) {
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+                x[i].parentNode.removeChild(x[i]);
+            }
+        }
+    }
+
+    document.addEventListener("click", function(e) {
+        closeAllLists(e.target);
+        if (!e.target.matches('.autocomplete-items div')) {
+            //closePopup(); // Commented out to prevent closing the popup on text selection
+        }
+    });
+}
+
+var hadithLibrary = [
+    "1. None resembled the Prophet (ﷺ) more than Al-Hasan bin `Ali did [bukhari:3752]",
+    "2. Khalid bin walid showing hate towards Imam Ali A.S [Bukhari:4350]",
+    "3. Rememberence of Ali (A.s) is worship [ibid p.356, no.8949]",
             "4. A man was in The House with Hazrat Aisha Alone [bukhari:2647, mulim:1455a, ibnmajah:1945, bukhari:5102]",
             "5. Prophet s.a.w referts to Hazrat Aisha as an object [muslim:350]",
             "6. Surah Tahreem was for Hz Aisha and Hz Hafsa [bukhari:5191, muslim:1479a, bukhari:2468, nasai:3958, muslim:1479e. ahmad:339]",
@@ -182,43 +288,32 @@
             "45. How the Shia of Ali are like [Bihar al-Anwar, v. 78 p.28, no.95]",
             "46. Ali and his followers will be the winners on the day of judgement [ibid, p.333, no.8900]",
             "47. Hazrat Aisha Scraping Off so and so With Her Hands [Muslim:290, ibnmajah:538, Muslim:288a, abudawud:371, tirmidhi:116, muslim:228b] ",
-            "48. ",
-            "49. ",
+            "48. The jews used to pray with their hands on there flanks [bukhari:3458]",
+            "49. Wealth in the world shouldnt be valued much when compared too wealth of the hereafter [Mizan-Al-Hikmah, V6, H.15753]",
             "50. ",
-        ];
+];
 
-        const searchInput = document.getElementById("searchInput");
-        const clearButton = document.getElementById("clearButton");
-        const searchResults = document.getElementById("searchResults");
+// Function to show the popup
+function showPopup(text) {
+    var popup = document.querySelector('.popup');
+    var popupContent = document.getElementById('popup-content');
+    if (popup && popupContent) {
+        // Set the content of the popup
+        popupContent.innerHTML = text;
+        // Show the popup
+        popup.style.display = 'block';
+    }
+}
 
-        // Function to search for hadith
-        function searchHadith(query) {
-            searchResults.innerHTML = ""; // Clear previous results
-            query = query.toLowerCase();
+function closePopup() {
+    var popup = document.querySelector('.popup');
+    if (popup) {
+        // Set display to 'none' to hide the popup
+        popup.style.display = 'none';
+    }
+}
+autocomplete(document.getElementById("myInput"), hadithLibrary);
+</script>
 
-            for (let i = 0; i < hadiths.length; i++) {
-                const hadith = hadiths[i].toLowerCase();
-                if (hadith.includes(query)) {
-                    const resultItem = document.createElement("div");
-                    resultItem.classList.add("hadithItem");
-                    resultItem.textContent = hadith;
-                    resultItem.addEventListener("click", () => {
-                        alert(hadith); // Show the full hadith in an alert
-                    });
-                    searchResults.appendChild(resultItem);
-                }
-            }
-        }
-        // Event listener for input changes
-        searchInput.addEventListener("input", () => {
-            searchHadith(searchInput.value);
-        });
-
-        // Event listener for the Clear button
-        clearButton.addEventListener("click", () => {
-            searchInput.value = ""; // Clear the search input
-            searchResults.innerHTML = ""; // Clear the search results
-        });
-    </script>
 </body>
 </html>
