@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hadith Search</title>
     <script src="https://kit.fontawesome.com/bb3a8706ce.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-image: url('well.jpeg');
             background-size: cover;
             background-attachment: fixed;
             margin: 0;
-            padding: 10px;
+            padding: 50px;
         }
 
         h1 {
             color: #333;
-            margin: 10px 0;
-            font-size: 24px;
+            margin: 10px 0; /* Moved the heading a bit to the top */
+            font-size: 48px;
         }
 
         .search-box {
-            width: 90%;
-            margin: 10px auto;
-            border-radius: 5px;
-            padding: 10px;
+            width: 600px; /* Decreased the size of the search box */
+            position: relative;
             background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 50px auto 20px; /* Moved the search box down */
+            border-radius: 5px;
+            padding: 10px; /* Added padding for the search box */
         }
 
         .row {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
+            padding: 10px 15px;
         }
 
         input[type="text"] {
-            width: 70%; /* Adjusted width for better visibility on laptops */
-            height: 30px;
+            flex: 1;
+            height: 30px; /* Decreased the height of the input */
             border: none;
             outline: none;
-            font-size: 14px;
+            font-size: 14px; /* Decreased the font size */
             padding: 0 5px;
         }
 
@@ -50,7 +50,7 @@
             background: transparent;
             border: none;
             outline: none;
-            margin-left: 10px;
+            margin-right: 10px;
         }
 
         button .fa-solid {
@@ -86,15 +86,16 @@
             background-color: #e9e9e9;
         }
 
-        .autocomplete-active,
-        .autocomplete-items div:hover {
+        .autocomplete-active, .autocomplete-items div:hover {
             background-color: DodgerBlue !important;
             color: #ffffff;
         }
 
         #footer {
             text-align: center;
-            width: 100%;
+            position: fixed;
+            bottom: 10px;
+            width: 95%;
             font-size: 14px;
             display: flex;
             justify-content: center;
@@ -115,10 +116,11 @@
         }
 
         #quranCom {
-            background-color: #93adbc;
+           background-color:#93adbc;
         }
 
         #thaqalaynNet {
+            
             background-color: #E29912;
         }
 
@@ -136,8 +138,8 @@
             padding: 30px;
             z-index: 1000;
             border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none; /* Hide the popup initially */
         }
 
         .close-btn {
@@ -147,57 +149,31 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
-
-        @media only screen and (max-width: 768px) {
-            body {
-                background-image: url('Phone.jpeg');
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            .search-box {
-                width: 90%;
-            }
-
-            .row {
-                justify-content: space-between;
-            }
-
-            button {
-                margin-left: 0;
-            }
-
-            input[type="text"] {
-                width: 60%; /* Adjusted width for better visibility on mobile */
-            }
-        }
     </style>
 </head>
-
 <body>
 
-    <h1>Hadith Search</h1>
+<h1>Hadith Search</h1>
 
-    <div class="search-box">
-        <div class="row">
-            <input id="myInput" type="text" placeholder="Search Hadith..." autocomplete="off">
-            <button><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
-        <div id="myInputautocomplete-list" class="autocomplete-items"></div>
+<div class="search-box">
+    <div class="row">
+        <input id="myInput" type="text" placeholder="Search Hadith..." autocomplete="off">
+        <button><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
+    <div id="myInputautocomplete-list" class="autocomplete-items"></div>
+</div>
 
-    <div id="footer">
-        <a class="footerLink" id="quranCom" href="https://quran.com" target="_blank">Quran.com</a>
-        <a class="footerLink" id="thaqalaynNet" href="https://thaqalayn.net" target="_blank">Thaqalayn.net</a>
-        <a class="footerLink" id="sunnahCom" href="https://sunnah.com" target="_blank">Sunnah.com</a>
-    </div>
+<div id="footer">
+    <a class="footerLink" id="quranCom" href="https://quran.com" target="_blank">Quran.com</a>
+    <a class="footerLink" id="thaqalaynNet" href="https://thaqalayn.net" target="_blank">Thaqalayn.net</a>
+    <a class="footerLink" id="sunnahCom" href="https://sunnah.com" target="_blank">Sunnah.com</a>
+</div>
 
-    <div class="popup">
-        <span class="close-btn" onclick="closePopup()">&times;</span>
-        <div id="popup-content"></div>
-    </div>
+<div class="popup">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <div id="popup-content"></div>
+</div>
+
 <script>
 function autocomplete(inp, arr) {
     var currentFocus;
