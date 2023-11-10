@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hadith Search</title>
     <script src="https://kit.fontawesome.com/bb3a8706ce.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-image: url('well.jpeg');
             background-size: cover;
             background-attachment: fixed;
             margin: 0;
@@ -17,17 +18,16 @@
 
         h1 {
             color: #333;
-            margin: 10px 0; /* Moved the heading a bit to the top */
+            margin: 10px 0;
             font-size: 48px;
         }
 
         .search-box {
-            width: 600px; /* Decreased the size of the search box */
-            position: relative;
-            background: #fff;
-            margin: 50px auto 20px; /* Moved the search box down */
+            width: 90%;
+            margin: 50px auto 20px;
             border-radius: 5px;
-            padding: 10px; /* Added padding for the search box */
+            padding: 10px;
+            background: #fff;
         }
 
         .row {
@@ -39,10 +39,10 @@
 
         input[type="text"] {
             flex: 1;
-            height: 30px; /* Decreased the height of the input */
+            height: 30px;
             border: none;
             outline: none;
-            font-size: 14px; /* Decreased the font size */
+            font-size: 14px;
             padding: 0 5px;
         }
 
@@ -86,7 +86,8 @@
             background-color: #e9e9e9;
         }
 
-        .autocomplete-active, .autocomplete-items div:hover {
+        .autocomplete-active,
+        .autocomplete-items div:hover {
             background-color: DodgerBlue !important;
             color: #ffffff;
         }
@@ -116,11 +117,11 @@
         }
 
         #quranCom {
-           background-color:#93adbc;
+            background-color: #93adbc;
         }
 
         #thaqalaynNet {
-            
+
             background-color: #E29912;
         }
 
@@ -138,8 +139,8 @@
             padding: 30px;
             z-index: 1000;
             border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: none; /* Hide the popup initially */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
         }
 
         .close-btn {
@@ -149,30 +150,37 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                background-image: url('Phone.jpeg');
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<h1>Hadith Search</h1>
+    <h1>Hadith Search</h1>
 
-<div class="search-box">
-    <div class="row">
-        <input id="myInput" type="text" placeholder="Search Hadith..." autocomplete="off">
-        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+    <div class="search-box">
+        <div class="row">
+            <input id="myInput" type="text" placeholder="Search Hadith..." autocomplete="off">
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <div id="myInputautocomplete-list" class="autocomplete-items"></div>
     </div>
-    <div id="myInputautocomplete-list" class="autocomplete-items"></div>
-</div>
 
-<div id="footer">
-    <a class="footerLink" id="quranCom" href="https://quran.com" target="_blank">Quran.com</a>
-    <a class="footerLink" id="thaqalaynNet" href="https://thaqalayn.net" target="_blank">Thaqalayn.net</a>
-    <a class="footerLink" id="sunnahCom" href="https://sunnah.com" target="_blank">Sunnah.com</a>
-</div>
+    <div id="footer">
+        <a class="footerLink" id="quranCom" href="https://quran.com" target="_blank">Quran.com</a>
+        <a class="footerLink" id="thaqalaynNet" href="https://thaqalayn.net" target="_blank">Thaqalayn.net</a>
+        <a class="footerLink" id="sunnahCom" href="https://sunnah.com" target="_blank">Sunnah.com</a>
+    </div>
 
-<div class="popup">
-    <span class="close-btn" onclick="closePopup()">&times;</span>
-    <div id="popup-content"></div>
-</div>
+    <div class="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <div id="popup-content"></div>
+    </div>
 
 <script>
 function autocomplete(inp, arr) {
