@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Hadith Search</title>
@@ -8,26 +9,23 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-image: url('well.jpeg');
-            background-size: cover;
-            background-attachment: fixed;
             margin: 0;
             padding: 50px;
         }
 
         h1 {
             color: #333;
-            margin: 10px 0; /* Moved the heading a bit to the top */
+            margin: 10px 0;
             font-size: 48px;
         }
 
         .search-box {
-            width: 600px; /* Decreased the size of the search box */
+            width: 80%;
             position: relative;
             background: #fff;
-            margin: 50px auto 20px; /* Moved the search box down */
+            margin: 50px auto 20px;
             border-radius: 5px;
-            padding: 10px; /* Added padding for the search box */
+            padding: 10px;
         }
 
         .row {
@@ -39,10 +37,10 @@
 
         input[type="text"] {
             flex: 1;
-            height: 30px; /* Decreased the height of the input */
+            height: 30px;
             border: none;
             outline: none;
-            font-size: 14px; /* Decreased the font size */
+            font-size: 14px;
             padding: 0 5px;
         }
 
@@ -86,7 +84,8 @@
             background-color: #e9e9e9;
         }
 
-        .autocomplete-active, .autocomplete-items div:hover {
+        .autocomplete-active,
+        .autocomplete-items div:hover {
             background-color: DodgerBlue !important;
             color: #ffffff;
         }
@@ -116,11 +115,10 @@
         }
 
         #quranCom {
-           background-color:#93adbc;
+            background-color: #93adbc;
         }
 
         #thaqalaynNet {
-            
             background-color: #E29912;
         }
 
@@ -138,8 +136,8 @@
             padding: 30px;
             z-index: 1000;
             border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            display: none; /* Hide the popup initially */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
         }
 
         .close-btn {
@@ -149,110 +147,127 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
+
+        @media (min-width: 600px) {
+            body {
+                background-image: url('well.jpeg');
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        }
+
+        @media (max-width: 599px) {
+            body {
+                background-image: url('phone.jpeg');
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<h1>Hadith Search</h1>
+    <h1>Hadith Search</h1>
 
-<div class="search-box">
-    <div class="row">
-        <input id="myInput" type="text" placeholder="Search Hadith..." autocomplete="off">
-        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+    <div class="search-box">
+        <div class="row">
+            <input id="myInput" type="text" placeholder="Search Hadith..." autocomplete="off">
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <div id="myInputautocomplete-list" class="autocomplete-items"></div>
     </div>
-    <div id="myInputautocomplete-list" class="autocomplete-items"></div>
-</div>
 
-<div id="footer">
-    <a class="footerLink" id="quranCom" href="https://quran.com" target="_blank">Quran.com</a>
-    <a class="footerLink" id="thaqalaynNet" href="https://thaqalayn.net" target="_blank">Thaqalayn.net</a>
-    <a class="footerLink" id="sunnahCom" href="https://sunnah.com" target="_blank">Sunnah.com</a>
-</div>
+    <div id="footer">
+        <a class="footerLink" id="quranCom" href="https://quran.com" target="_blank">Quran.com</a>
+        <a class="footerLink" id="thaqalaynNet" href="https://thaqalayn.net" target="_blank">Thaqalayn.net</a>
+        <a class="footerLink" id="sunnahCom" href="https://sunnah.com" target="_blank">Sunnah.com</a>
+    </div>
 
-<div class="popup">
-    <span class="close-btn" onclick="closePopup()">&times;</span>
-    <div id="popup-content"></div>
-</div>
+    <div class="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <div id="popup-content"></div>
+    </div>
 
-<script>
-function autocomplete(inp, arr) {
-    var currentFocus;
+    <script>
+        function autocomplete(inp, arr) {
+            var currentFocus;
 
-    inp.addEventListener("input", function(e) {
-        var a, b, i, val = this.value;
-        closeAllLists();
-        if (!val) { return false;}
-        currentFocus = -1;
-        a = document.createElement("div");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        this.parentNode.appendChild(a);
-        for (i = 0; i < arr.length; i++) {
-            if (arr[i].toUpperCase().includes(val.toUpperCase())) {
-                b = document.createElement("div");
-                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                b.innerHTML += arr[i].substr(val.length);
-                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                b.addEventListener("click", function(e) {
-                    showPopup(this.getElementsByTagName("input")[0].value);
-                });
-                a.appendChild(b);
+            inp.addEventListener("input", function (e) {
+                var a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false; }
+                currentFocus = -1;
+                a = document.createElement("div");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                this.parentNode.appendChild(a);
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i].toUpperCase().includes(val.toUpperCase())) {
+                        b = document.createElement("div");
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        b.addEventListener("click", function (e) {
+                            showPopup(this.getElementsByTagName("input")[0].value);
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+
+            inp.addEventListener("keydown", function (e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    currentFocus++;
+                    addActive(x);
+                } else if (e.keyCode == 38) {
+                    currentFocus--;
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+
+            function addActive(x) {
+                if (!x) return false;
+                removeActive(x);
+                if (currentFocus >= x.length) currentFocus = 0;
+                if (currentFocus < 0) currentFocus = x.length - 1;
+                x[currentFocus]?.classList.add("autocomplete-active");
             }
-        }
-    });
 
-    inp.addEventListener("keydown", function(e) {
-        var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-            currentFocus++;
-            addActive(x);
-        } else if (e.keyCode == 38) {
-            currentFocus--;
-            addActive(x);
-        } else if (e.keyCode == 13) {
-            e.preventDefault();
-            if (currentFocus > -1) {
-                if (x) x[currentFocus].click();
+            function removeActive(x) {
+                for (var i = 0; i < x.length; i++) {
+                    x[i].classList.remove("autocomplete-active");
+                }
             }
-        }
-    });
 
-    function addActive(x) {
-        if (!x) return false;
-        removeActive(x);
-        if (currentFocus >= x.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = x.length - 1;
-        x[currentFocus]?.classList.add("autocomplete-active");
-    }
-
-    function removeActive(x) {
-        for (var i = 0; i < x.length; i++) {
-            x[i].classList.remove("autocomplete-active");
-        }
-    }
-
-    function closeAllLists(elmnt) {
-        var x = document.getElementsByClassName("autocomplete-items");
-        for (var i = 0; i < x.length; i++) {
-            if (elmnt != x[i] && elmnt != inp) {
-                x[i].parentNode.removeChild(x[i]);
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("autocomplete-items");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inp) {
+                        x[i].parentNode.removeChild(x[i]);
+                    }
+                }
             }
-        }
-    }
 
-    document.addEventListener("click", function(e) {
-        closeAllLists(e.target);
-        if (!e.target.matches('.autocomplete-items div')) {
-            //closePopup(); // Commented out to prevent closing the popup on text selection
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+                if (!e.target.matches('.autocomplete-items div')) {
+                    //closePopup(); // Commented out to prevent closing the popup on text selection
+                }
+            });
         }
-    });
-}
 
-var hadithLibrary = [
-    "1. None resembled the Prophet (ﷺ) more than Al-Hasan bin `Ali did [bukhari:3752]",
-    "2. Khalid bin walid showing hate towards Imam Ali A.S [Bukhari:4350]",
-    "3. Rememberence of Ali (A.s) is worship [ibid p.356, no.8949]",
+        var hadithLibrary = [
+            "1. None resembled the Prophet (ﷺ) more than Al-Hasan bin `Ali did [bukhari:3752]",
+            "2. Khalid bin walid showing hate towards Imam Ali A.S [Bukhari:4350]",
+            "3. Rememberence of Ali (A.s) is worship [ibid p.356, no.8949]",
             "4. A man was in The House with Hazrat Aisha Alone [bukhari:2647, mulim:1455a, ibnmajah:1945, bukhari:5102]",
             "5. Prophet s.a.w referts to Hazrat Aisha as an object [muslim:350]",
             "6. Surah Tahreem was for Hz Aisha and Hz Hafsa [bukhari:5191, muslim:1479a, bukhari:2468, nasai:3958, muslim:1479e. ahmad:339]",
@@ -290,31 +305,34 @@ var hadithLibrary = [
             "47. Hazrat Aisha Scraping Off so and so With Her Hands [Muslim:290, ibnmajah:538, Muslim:288a, abudawud:371, tirmidhi:116, muslim:228b] ",
             "48. The jews used to pray with their hands on there flanks [bukhari:3458]",
             "49. Wealth in the world shouldnt be valued much when compared too wealth of the hereafter [Mizan-Al-Hikmah, V6, H.15753]",
-            "50. ",
-];
+            "50. Have faith in acceptance when praying [Adaab e islami,v2, p.280]",
+            "51. Feel thankfull for every breath [Bihar al anwar, v.71]",
+            "52. The wilayat of Imam Holds enough strength that a believer can walk even on spring tides [Bihar al anwar, v.50, page:215]",
+            "53. Those who want to live like the RasulAllah should follow Imam Ali (a.s)",
+            "54. Ziyarat of Imam Hussein (a.s) is equal too 90 hajj and 90 Umrah of RasulAllah s.a.w [Kamil-Al-ziyarat, book2, chapter 22, Hadith 1]",
+]
+        autocomplete(document.getElementById("myInput"), hadithLibrary);
 
-// Function to show the popup
-function showPopup(text) {
-    var popup = document.querySelector('.popup');
-    var popupContent = document.getElementById('popup-content');
-    if (popup && popupContent) {
-        // Set the content of the popup
-        popupContent.innerHTML = text;
-        // Show the popup
-        popup.style.display = 'block';
-    }
-}
+        function showPopup(text) {
+            var popup = document.querySelector('.popup');
+            var popupContent = document.getElementById('popup-content');
+            if (popup && popupContent) {
+                // Set the content of the popup
+                popupContent.innerHTML = text;
+                // Show the popup
+                popup.style.display = 'block';
+            }
+        }
 
-function closePopup() {
-    var popup = document.querySelector('.popup');
-    if (popup) {
-        // Set display to 'none' to hide the popup
-        popup.style.display = 'none';
-    }
-}
-autocomplete(document.getElementById("myInput"), hadithLibrary);
-    var currentImage = ""; var wellImage = "well.jpeg"; var phoneImage = "phone.jpeg"; function loadImage() { if (window.innerWidth <= 480) { currentImage = phoneImage; } else { currentImage = wellImage; } var img = document.createElement("img"); img.src = currentImage; document.body.appendChild(img); } window.addEventListener("resize", loadImage); loadImage(); 
-</script>
+        function closePopup() {
+            var popup = document.querySelector('.popup');
+            if (popup) {
+                // Set display to 'none' to hide the popup
+                popup.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
+
 </html>
