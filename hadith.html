@@ -313,6 +313,7 @@ function closePopup() {
     }
 }
 autocomplete(document.getElementById("myInput"), hadithLibrary);
+    var currentImage = ""; var wellImage = "well.jpeg"; var phoneImage = "phone.jpeg"; function loadImage() { if (window.innerWidth <= 480) { currentImage = phoneImage; } else { currentImage = wellImage; } var img = document.createElement("img"); img.src = currentImage; document.body.appendChild(img); } window.addEventListener("resize", loadImage); loadImage(); 
 </script>
 
 </body>
